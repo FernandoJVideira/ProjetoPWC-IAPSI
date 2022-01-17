@@ -24,10 +24,10 @@ function apiCall() {
             $('.rank', rowClone).text(result.market_cap_rank)
             $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
             $('.symbol', rowClone).attr('src', result.image)
-            $('.price', rowClone).text(currencySymbol + " " + result.current_price)
-            $('.marketcap', rowClone).text(result.market_cap)
-            $('.variation', rowClone).text(result.price_change_percentage_24h.toFixed(2))
-            $('.volume24h', rowClone).text(result.circulating_supply)
+            $('.price', rowClone).text(result.current_price + " " + currencySymbol)
+            $('.marketcap', rowClone).text(result.market_cap + currencySymbol)
+            $('.variation', rowClone).text(result.price_change_percentage_24h.toFixed(2) + "%")
+            $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() +")")
             $('.like-btn', rowClone).attr('id', result.id)
 
             $('#table').append(rowClone);
@@ -67,4 +67,34 @@ $('#currencylist li').on('click', function () {
 })
 
 window.onload = apiCall
+
+$("#top10").on("click",function()
+{
+    $('.clone').hide();
+    for(let i = 0; i < 10; i++)
+    {
+        console.log($('.clone')[i]);
+        $('.clone').eq(i).show();
+    }
+})
+
+$("#top50").on("click",function()
+{
+    $('.clone').hide();
+    for(let i = 0; i < 50; i++)
+    {
+        console.log($('.clone')[i]);
+        $('.clone').eq(i).show();
+    }
+})
+
+$("#top100").on("click",function()
+{
+    $('.clone').hide();
+    for(let i = 0; i < 100; i++)
+    {
+        console.log($('.clone')[i]);
+        $('.clone').eq(i).show();
+    }
+})
 
