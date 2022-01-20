@@ -28,7 +28,8 @@ function apiCall() {
             $('.marketcap', rowClone).text(result.market_cap + currencySymbol)
             $('.variation', rowClone).text(result.price_change_percentage_24h.toFixed(2) + "%")
             $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() +")")
-            $('.like-btn', rowClone).attr('id', result.id)
+
+            $('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)');
 
             $('#table').append(rowClone);
 
@@ -67,6 +68,10 @@ $('#currencylist li').on('click', function () {
 })
 
 window.onload = apiCall
+
+function favoritos(moeda) {
+    $(moeda).toggleClass("favoritos")
+}
 
 $("#top10").on("click",function()
 {
