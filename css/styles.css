@@ -52,8 +52,9 @@ th
 	font-weight: 500;
 	cursor: pointer;
 	transition: .3s;
-	color: #56bee6;
-	border-color: #56bee6;
+	color: white;
+	border-color: white;
+  background-color: black;
 }
 	
 #btnSearch:hover
