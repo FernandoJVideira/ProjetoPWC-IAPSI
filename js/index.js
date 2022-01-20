@@ -30,6 +30,8 @@ function apiCall() {
             $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() +")")
             $('.like-btn', rowClone).attr('id', result.id)
 
+            $('.like-btn').attr('id', result.id).attr('onclick', 'favoritos(this)');
+
             $('#table').append(rowClone);
 
             var variation = $('.variation', rowClone).text()
@@ -67,6 +69,10 @@ $('#currencylist li').on('click', function () {
 })
 
 window.onload = apiCall
+
+function favoritos(moeda) {
+    $(moeda).toggleClass("favoritos")
+}
 
 $("#top10").on("click",function()
 {
