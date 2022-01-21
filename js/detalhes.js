@@ -36,3 +36,41 @@ function showDetails()
 }
 
 window.onload = showDetails
+
+$('#currencylist li').on('click', function () {
+    console.log($(this).text());
+    currencySymbol = $(this).text();
+
+    switch (currencySymbol) {
+        case '€':
+            currency = 'eur';
+            break;
+
+        case '$':
+            currency = 'usd';
+            break;
+        case '£':
+            currency = 'gbp';
+            break;
+        case '¥':
+            currency = 'jpy';
+            break;
+    }
+    showDetails();
+}) 
+
+$('#languagelist li').on('click', function () {
+    console.log($(this).text());
+    language = $(this).text();
+
+    switch (language) {
+        case 'English':
+            language = 'en';
+            break;
+
+        case 'Korean':
+            language = 'ko';
+            break;
+    }
+    showDetails();
+}) 
