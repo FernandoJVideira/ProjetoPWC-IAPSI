@@ -24,12 +24,12 @@ function showDetails()
 
             $('.coinImg').attr('src', res.image.large)
             $('.rank').text(res.market_cap_rank)
-            $('.nome').text(res.name + " (" + res.symbol.toUpperCase() + ")")
+            $('.nome').text(res.localization[language] + " (" + res.symbol.toUpperCase() + ")")
             $('.valor').text(res.market_data.current_price[currency] + " " + currencySymbol)
             $('.mudanca24h').text(res.market_data.price_change_percentage_24h.toFixed(2) + "%")
             $('.description').html(res.description[language])
 
-            //$('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)');
+        //$('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)');
 
 
     })
