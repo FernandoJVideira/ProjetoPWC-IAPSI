@@ -1,4 +1,5 @@
 'use strict'
+
 var fvt = JSON.parse(localStorage.getItem('fvt'));
 var cloneRow = $("#row").clone();
 var currency;
@@ -8,8 +9,7 @@ currencySymbol = "€"
 
 $('#search').on("change", verifyIfEmpty);
 
-if(!fvt)
-{
+if (!fvt) {
     var fvtArr = [];
 
     localStorage.setItem('fvt', JSON.stringify(fvtArr));
@@ -28,32 +28,30 @@ function apiCall() {
 
             $('#row').hide();
             var rowClone = cloneRow.clone().addClass("clone");
+            if (fvt.indexOf(result.id) > -1) {
 
-            //$('td', rowClone).attr('onclick', redirect(result.id))
-            $('.rank', rowClone).text(result.market_cap_rank)
-            $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
-            $('.symbol', rowClone).attr('src', result.image)
-            $('.price', rowClone).text(result.current_price + " " + currencySymbol)
-            $('.marketcap', rowClone).text(result.market_cap + currencySymbol)
-            $('.variation', rowClone).text(result.price_change_percentage_24h.toFixed(2) + "%")
-            $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() +")")
+                //$('td', rowClone).attr('onclick', redirect(result.id))
+                $('.rank', rowClone).text(result.market_cap_rank)
+                $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
+                $('.symbol', rowClone).attr('src', result.image)
+                $('.price', rowClone).text(result.current_price + " " + currencySymbol)
+                $('.marketcap', rowClone).text(result.market_cap + currencySymbol)
+                $('.variation', rowClone).text(result.price_change_percentage_24h.toFixed(2) + "%")
+                $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() + ")")
 
-            $('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)');
-            if(fvt.indexOf(result.id) > -1)
-            {
-                 $('.like-btn',rowClone).addClass("favoritos");
-            }
-            $('#table').append(rowClone);
+                $('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)').addClass("favoritos");
 
-            var variation = $('.variation', rowClone).text()
+                $('#table').append(rowClone);
 
-            if (variation.match("^-")) {
-                $(".variation", rowClone).css("color", "red");
-                $(".variation", rowClone).prepend("🡻 ");
-            }
-            else {
-                $(".variation", rowClone).css("color", "green");
-                $(".variation", rowClone).prepend("🡹 ");
+                var variation = $('.variation', rowClone).text()
+
+                if (variation.match("^-")) {
+                    $(".variation", rowClone).css("color", "red");
+                    $(".variation", rowClone).prepend("🡻 ");
+                } else {
+                    $(".variation", rowClone).css("color", "green");
+                    $(".variation", rowClone).prepend("🡹 ");
+                }
             }
         })
     })
@@ -106,10 +104,6 @@ $('#btnSearch').on('click', function searchFunction() {
 
         $('.like-btn').attr('id', result.id).attr('onclick', 'favoritos(this)');
 
-        if(fvt.indexOf(result.id) > -1)
-        {
-            $('.like-btn').addClass("favoritos");
-        }
         var variation = $('.variation').text()
 
         if (variation.match("^-")) {
@@ -134,46 +128,35 @@ function verifyIfEmpty() {
 
 function favoritos(moeda) {
     $(moeda).toggleClass("favoritos")
-    if($(moeda).hasClass("favoritos"))
-    {
-        
-        fvt.push($(moeda).attr("id"));
-    }
-    else
-    {
-        fvt.splice(fvt.indexOf($(moeda).attr("id")),1)
-    }
-    localStorage.setItem('fvt', JSON.stringify(fvt));
-    console.log(fvt)
+    
+        fvt.splice(fvt.indexOf($(moeda).attr("id")), 1)
+        console.log($(moeda).parents())
+        $(moeda).parents()[1].remove();
+        localStorage.setItem('fvt', JSON.stringify(fvt));
+
+        console.log(fvt)
 }
 
-$("#top10").on("click",function()
-{
+$("#top10").on("click", function () {
     $('.clone').hide();
-    for(let i = 0; i < 10; i++)
-    {
+    for (let i = 0; i < 10; i++) {
         console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
 
-$("#top50").on("click",function()
-{
+$("#top50").on("click", function () {
     $('.clone').hide();
-    for(let i = 0; i < 50; i++)
-    {
+    for (let i = 0; i < 50; i++) {
         console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
 
-$("#top100").on("click",function()
-{
+$("#top100").on("click", function () {
     $('.clone').hide();
-    for(let i = 0; i < 100; i++)
-    {
+    for (let i = 0; i < 100; i++) {
         console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
-
