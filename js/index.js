@@ -10,8 +10,7 @@ $('#search').on("change", verifyIfEmpty);
 $('#search').keyup(searchFunction);
 $('#btnSearch').on('click', btnSearch)
 
-if(!fvt)
-{
+if (!fvt) {
     var fvtArr = [];
 
     localStorage.setItem('fvt', JSON.stringify(fvtArr));
@@ -31,19 +30,17 @@ function apiCall() {
             $('#row').hide();
             var rowClone = cloneRow.clone().addClass('clone').attr('data-name', result.name).attr('data-symbol', result.symbol).attr('data-id', result.id);
 
-            //$('td', rowClone).attr('onclick', redirect(result.id))
             $('.rank', rowClone).text(result.market_cap_rank)
             $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
             $('.symbol', rowClone).attr('src', result.image)
             $('.price', rowClone).text(result.current_price + " " + currencySymbol)
             $('.marketcap', rowClone).text(result.market_cap + currencySymbol)
             $('.variation', rowClone).text(result.price_change_percentage_24h.toFixed(2) + "%")
-            $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() +")")
+            $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() + ")")
 
             $('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)');
-            if(fvt.indexOf(result.id) > -1)
-            {
-                 $('.like-btn',rowClone).addClass("favoritos");
+            if (fvt.indexOf(result.id) > -1) {
+                $('.like-btn', rowClone).addClass("favoritos");
             }
             $('#table').append(rowClone);
 
@@ -52,12 +49,16 @@ function apiCall() {
             if (variation.match("^-")) {
                 $(".variation", rowClone).css("color", "red");
                 $(".variation", rowClone).prepend("🡻 ");
-            }
-            else {
+            } else {
                 $(".variation", rowClone).css("color", "green");
                 $(".variation", rowClone).prepend("🡹 ");
             }
         })
+
+        if ($('#search').val() != "") 
+        {
+            searchFunction();
+        }
     })
 }
 
@@ -89,15 +90,14 @@ function searchFunction() {
     var valueToSearch = $('#search').val().toLowerCase();
     var cryptoList = $('#table').find('.clone');
     $(cryptoList).show();
+    console.log($('#table').find('.clone'));
 
-    for(var i = 0; i < $(cryptoList).length; i++)
-    {
+    for (var i = 0; i < $(cryptoList).length; i++) {
         var name = $(cryptoList[i]).attr('data-name').toLowerCase();
         var symbol = $(cryptoList[i]).attr('data-symbol').toLowerCase();
         var id = $(cryptoList[i]).attr('data-id').toLowerCase();
 
-        if(!name.includes(valueToSearch) && !symbol.includes(valueToSearch) && !id.includes(valueToSearch))
-        {
+        if (!name.includes(valueToSearch) && !symbol.includes(valueToSearch) && !id.includes(valueToSearch)) {
             $(cryptoList[i]).hide();
         }
     }
@@ -105,10 +105,9 @@ function searchFunction() {
 
 window.onload = apiCall
 
-function btnSearch()
-{
+function btnSearch() {
     var valueToSearch = $('#search').val().toLowerCase();
-    
+
     $.ajax({
         type: 'GET',
         datatype: 'json',
@@ -131,8 +130,7 @@ function btnSearch()
 
         $('.like-btn').attr('id', result.id).attr('onclick', 'favoritos(this)');
 
-        if(fvt.indexOf(result.id) > -1)
-        {
+        if (fvt.indexOf(result.id) > -1) {
             $('.like-btn').addClass("favoritos");
         }
         var variation = $('.variation').text()
@@ -151,8 +149,7 @@ function btnSearch()
 
 function verifyIfEmpty() {
 
-    if ($('#search').val() == "") 
-    {
+    if ($('#search').val() == "") {
         apiCall();
     }
 
@@ -160,46 +157,36 @@ function verifyIfEmpty() {
 
 function favoritos(moeda) {
     $(moeda).toggleClass("favoritos")
-    if($(moeda).hasClass("favoritos"))
-    {
-        
+    if ($(moeda).hasClass("favoritos")) {
+
         fvt.push($(moeda).attr("id"));
-    }
-    else
-    {
-        fvt.splice(fvt.indexOf($(moeda).attr("id")),1)
+    } else {
+        fvt.splice(fvt.indexOf($(moeda).attr("id")), 1)
     }
     localStorage.setItem('fvt', JSON.stringify(fvt));
     console.log(fvt)
 }
 
-$("#top10").on("click",function()
-{
+$("#top10").on("click", function () {
     $('.clone').hide();
-    for(let i = 0; i < 10; i++)
-    {
+    for (let i = 0; i < 10; i++) {
         console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
 
-$("#top50").on("click",function()
-{
+$("#top50").on("click", function () {
     $('.clone').hide();
-    for(let i = 0; i < 50; i++)
-    {
+    for (let i = 0; i < 50; i++) {
         console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
 
-$("#top100").on("click",function()
-{
+$("#top100").on("click", function () {
     $('.clone').hide();
-    for(let i = 0; i < 100; i++)
-    {
+    for (let i = 0; i < 100; i++) {
         console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
-
