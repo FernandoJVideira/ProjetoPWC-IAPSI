@@ -1,5 +1,5 @@
 'use strict'
-
+var fvt = JSON.parse(localStorage.getItem('fvt'));
 var cloneRow = $("#row").clone();
 var currency;
 var currencySymbol;
@@ -9,6 +9,13 @@ currencySymbol = "€"
 $('#search').on("change", verifyIfEmpty);
 $('#search').keyup(searchFunction);
 $('#btnSearch').on('click', btnSearch)
+
+if(!fvt)
+{
+    var fvtArr = [];
+
+    localStorage.setItem('fvt', JSON.stringify(fvtArr));
+}
 
 function apiCall() {
     $('.clone').remove();
@@ -34,7 +41,10 @@ function apiCall() {
             $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() +")")
 
             $('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)');
-
+            if(fvt.indexOf(result.id) > -1)
+            {
+                 $('.like-btn',rowClone).addClass("favoritos");
+            }
             $('#table').append(rowClone);
 
             var variation = $('.variation', rowClone).text()
@@ -121,6 +131,10 @@ function btnSearch()
 
         $('.like-btn').attr('id', result.id).attr('onclick', 'favoritos(this)');
 
+        if(fvt.indexOf(result.id) > -1)
+        {
+            $('.like-btn').addClass("favoritos");
+        }
         var variation = $('.variation').text()
 
         if (variation.match("^-")) {
@@ -146,6 +160,17 @@ function verifyIfEmpty() {
 
 function favoritos(moeda) {
     $(moeda).toggleClass("favoritos")
+    if($(moeda).hasClass("favoritos"))
+    {
+        
+        fvt.push($(moeda).attr("id"));
+    }
+    else
+    {
+        fvt.splice(fvt.indexOf($(moeda).attr("id")),1)
+    }
+    localStorage.setItem('fvt', JSON.stringify(fvt));
+    console.log(fvt)
 }
 
 $("#top10").on("click",function()
