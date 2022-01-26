@@ -7,6 +7,7 @@ var currencySymbol;
 currency = "eur";
 currencySymbol = "€"
 var ids = fvt.join();
+$('#row').hide();
 
 $('#search').on("change", verifyIfEmpty);
 
@@ -16,46 +17,52 @@ if (!fvt) {
     localStorage.setItem('fvt', JSON.stringify(fvtArr));
 }
 
+
 function apiCall() {
     $('.clone').remove();
-    $.ajax({
-        method: "GET",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-    }).done(function (res) {
-        //console.log(res);
-        //console.log(currencySymbol);
-        $.each(res, function (index, result) {
+    if (ids == "") {
+        $('#erro').show();
+    } else {
+        $('#erro').hide();
+        $.ajax({
+            method: "GET",
+            url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        }).done(function (res) {
+            //console.log(res);
+            //console.log(currencySymbol);
+            $.each(res, function (index, result) {
 
 
-            $('#row').hide();
-            var rowClone = cloneRow.clone().addClass("clone");
-            if (fvt.indexOf(result.id) > -1) {
+                $('#row').hide();
+                var rowClone = cloneRow.clone().addClass("clone");
+                if (fvt.indexOf(result.id) > -1) {
 
-                //$('td', rowClone).attr('onclick', redirect(result.id))
-                $('.rank', rowClone).text(result.market_cap_rank)
-                $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
-                $('.symbol', rowClone).attr('src', result.image)
-                $('.price', rowClone).text(result.current_price + " " + currencySymbol)
-                $('.marketcap', rowClone).text(result.market_cap + currencySymbol)
-                $('.variation', rowClone).text(result.price_change_percentage_24h.toFixed(2) + "%")
-                $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() + ")")
+                    $('.rank', rowClone).text(result.market_cap_rank)
+                    $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
+                    $('.symbol', rowClone).attr('src', result.image)
+                    $('.price', rowClone).text(result.current_price + " " + currencySymbol)
+                    $('.marketcap', rowClone).text(result.market_cap + currencySymbol)
+                    $('.variation', rowClone).text(result.price_change_percentage_24h.toFixed(2) + "%")
+                    $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() + ")")
 
-                $('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)').addClass("favoritos");
+                    $('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)').addClass("favoritos");
 
-                $('#table').append(rowClone);
+                    $('#table').append(rowClone);
 
-                var variation = $('.variation', rowClone).text()
+                    var variation = $('.variation', rowClone).text()
 
-                if (variation.match("^-")) {
-                    $(".variation", rowClone).css("color", "red");
-                    $(".variation", rowClone).prepend("🡻 ");
-                } else {
-                    $(".variation", rowClone).css("color", "green");
-                    $(".variation", rowClone).prepend("🡹 ");
+                    if (variation.match("^-")) {
+                        $(".variation", rowClone).css("color", "red");
+                        $(".variation", rowClone).prepend("🡻 ");
+                    } else {
+                        $(".variation", rowClone).css("color", "green");
+                        $(".variation", rowClone).prepend("🡹 ");
+                    }
                 }
-            }
+            })
         })
-    })
+    }
+
 }
 
 $('#currencylist li').on('click', function () {
@@ -129,13 +136,16 @@ function verifyIfEmpty() {
 
 function favoritos(moeda) {
     $(moeda).toggleClass("favoritos")
-    
-        fvt.splice(fvt.indexOf($(moeda).attr("id")), 1)
-        console.log($(moeda).parents())
-        $(moeda).parents()[1].remove();
-        localStorage.setItem('fvt', JSON.stringify(fvt));
 
-        console.log(fvt)
+    fvt.splice(fvt.indexOf($(moeda).attr("id")), 1)
+    console.log($(moeda).parents())
+    $(moeda).parents()[1].remove();
+    localStorage.setItem('fvt', JSON.stringify(fvt));
+
+    if (fvt.join() == "")
+    {
+        $('#erro').show();
+    }
 }
 
 $("#top10").on("click", function () {

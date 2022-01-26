@@ -32,7 +32,7 @@ function apiCall() {
             var rowClone = cloneRow.clone().addClass('clone').attr('data-name', result.name).attr('data-symbol', result.symbol).attr('data-id', result.id);
 
             //$('td', rowClone).attr('onclick', redirect(result.id))
-            $('.rank', rowClone).text(index + 1)
+            $('.rank', rowClone).text(result.market_cap_rank)
             $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
             $('.symbol', rowClone).attr('src', result.image)
             $('.price', rowClone).text(result.current_price + " " + currencySymbol)
