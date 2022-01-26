@@ -7,6 +7,8 @@ currency = "eur";
 currencySymbol = "€"
 
 $('#search').on("change", verifyIfEmpty);
+$('#search').keyup(searchFunction);
+$('#btnSearch').on('click', btnSearch)
 
 function apiCall() {
     $('.clone').remove();
@@ -20,10 +22,10 @@ function apiCall() {
 
 
             $('#row').hide();
-            var rowClone = cloneRow.clone().addClass("clone");
+            var rowClone = cloneRow.clone().addClass('clone').attr('data-name', result.name).attr('data-symbol', result.symbol).attr('data-id', result.id);
 
             //$('td', rowClone).attr('onclick', redirect(result.id))
-            $('.rank', rowClone).text(result.market_cap_rank)
+            $('.rank', rowClone).text(index + 1)
             $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
             $('.symbol', rowClone).attr('src', result.image)
             $('.price', rowClone).text(result.current_price + " " + currencySymbol)
@@ -71,13 +73,36 @@ $('#currencylist li').on('click', function () {
     apiCall();
 })
 
-$('#btnSearch').on('click', function searchFunction() {
-    var valTosearch = $('#search').val().toLowerCase();
 
+function searchFunction() {
+
+    var valueToSearch = $('#search').val().toLowerCase();
+    var cryptoList = $('#table').find('.clone');
+    $(cryptoList).show();
+
+    for(var i = 0; i < $(cryptoList).length; i++)
+    {
+        var name = $(cryptoList[i]).attr('data-name').toLowerCase();
+        var symbol = $(cryptoList[i]).attr('data-symbol').toLowerCase();
+        var id = $(cryptoList[i]).attr('data-id').toLowerCase();
+
+        if(!name.includes(valueToSearch) && !symbol.includes(valueToSearch) && !id.includes(valueToSearch))
+        {
+            $(cryptoList[i]).hide();
+        }
+    }
+}
+
+window.onload = apiCall
+
+function btnSearch()
+{
+    var valueToSearch = $('#search').val().toLowerCase();
+    
     $.ajax({
         type: 'GET',
         datatype: 'json',
-        url: "https://api.coingecko.com/api/v3/coins/" + valTosearch,
+        url: "https://api.coingecko.com/api/v3/coins/" + valueToSearch,
     }).done(function (result) {
 
         //console.log(result);
@@ -106,16 +131,17 @@ $('#btnSearch').on('click', function searchFunction() {
             $(".variation").prepend("🡹 ");
         }
     })
-})
+}
 
-window.onload = apiCall
+
 
 function verifyIfEmpty() {
-    if ($('#table #row > :visible').length == 8) {
-        if ($('#search').val().length == 0) {
-            apiCall();
-        }
+
+    if ($('#search').val() == "") 
+    {
+        apiCall();
     }
+
 }
 
 function favoritos(moeda) {
