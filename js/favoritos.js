@@ -6,6 +6,7 @@ var currency;
 var currencySymbol;
 currency = "eur";
 currencySymbol = "€"
+var ids = fvt.join();
 
 $('#search').on("change", verifyIfEmpty);
 
@@ -19,7 +20,7 @@ function apiCall() {
     $('.clone').remove();
     $.ajax({
         method: "GET",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
     }).done(function (res) {
         //console.log(res);
         //console.log(currencySymbol);
