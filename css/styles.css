@@ -3,9 +3,16 @@
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 90px;
+  margin-top: 150px;
   width: 80%;
   
+}
+
+.navbar
+{
+	margin-top: -20px;
+	margin-bottom: -20px;
+	padding-top: 30px;
 }
 
 .symbol
@@ -15,7 +22,10 @@
 
 #logo
 {
-  margin-right: 10px;
+	margin-bottom: 15px;
+	width: 4rem;
+	height: inherit;
+  	margin-right: 10px;
 }
 
 #tableContainer
