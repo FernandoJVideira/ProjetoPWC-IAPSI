@@ -30,6 +30,7 @@ function apiCall() {
             $('#row').hide();
             var rowClone = cloneRow.clone().addClass('clone').attr('data-name', result.name).attr('data-symbol', result.symbol).attr('data-id', result.id);
 
+            $('.redirect', rowClone).attr('onclick', `redirect('${result.id}')`)
             $('.rank', rowClone).text(result.market_cap_rank)
             $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
             $('.symbol', rowClone).attr('src', result.image)
@@ -146,6 +147,10 @@ function btnSearch() {
 }
 
 
+
+function redirect(idCoin) {
+    window.location.href = "detalhes.html?id=" + idCoin;
+}
 
 function verifyIfEmpty() {
 
