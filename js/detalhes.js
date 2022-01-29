@@ -1,7 +1,7 @@
 'use strict'
 
-var queryString = window.location.search;
-var urlParams = new URLSearchParams(queryString);
+var url = window.location.search;
+var urlParams = new URLSearchParams(url);
 var coinId = urlParams.get("id");
 
 var fvt = JSON.parse(localStorage.getItem('fvt'));
@@ -40,6 +40,14 @@ function showDetails() {
 }
 
 window.onload = showDetails
+
+$('#btnSearch').on('click', function redirectIndex() {
+    
+    var valTosearch = $('#search').val().toLowerCase();
+
+    search = localStorage.setItem("search", valTosearch);
+    window.location.href = "index.html";
+})
 
 function favoritos(moeda) {
     $(moeda).toggleClass("favoritos")

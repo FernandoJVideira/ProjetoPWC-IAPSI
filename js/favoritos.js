@@ -36,6 +36,7 @@ function apiCall() {
                 var rowClone = cloneRow.clone().addClass("clone");
                 if (fvt.indexOf(result.id) > -1) {
 
+                    $('.redirect', rowClone).attr('onclick', `redirect('${result.id}')`)
                     $('.rank', rowClone).text(result.market_cap_rank)
                     $('.nome', rowClone).text(result.name + " (" + result.symbol.toUpperCase() + ")")
                     $('.symbol', rowClone).attr('src', result.image)
@@ -86,43 +87,20 @@ $('#currencylist li').on('click', function () {
     apiCall();
 })
 
-$('#btnSearch').on('click', function searchFunction() {
+$('#btnSearch').on('click', function redirectIndex() {
+    
     var valTosearch = $('#search').val().toLowerCase();
 
-    $.ajax({
-        type: 'GET',
-        datatype: 'json',
-        url: "https://api.coingecko.com/api/v3/coins/" + valTosearch,
-    }).done(function (result) {
-
-
-        $('.clone').hide();
-        $('#row').show();
-
-        $('.redirect').attr('onclick', `redirect('${result.id}')`)
-        $('.rank').text(result.market_cap_rank)
-        $('.nome').text(result.name + " (" + result.symbol.toUpperCase() + ")")
-        $('.symbol').attr('src', result.image.small)
-        $('.price').text(currencySymbol + " " + result.market_data.current_price[currency])
-        $('.marketcap').text(result.market_data.market_cap[currency])
-        $('.variation').text(result.market_data.price_change_percentage_24h.toFixed(2))
-        $('.volume24h').text(result.market_data.circulating_supply)
-
-        $('.like-btn').attr('id', result.id).attr('onclick', 'favoritos(this)');
-
-        var variation = $('.variation').text()
-
-        if (variation.match("^-")) {
-            $(".variation").css("color", "red");
-            $(".variation").prepend("🡻 ");
-        } else {
-            $(".variation").css("color", "green");
-            $(".variation").prepend("🡹 ");
-        }
-    })
+    search = localStorage.setItem("search", valTosearch);
+    console.log(search);
+    window.location.href = "index.html";
 })
 
 window.onload = apiCall
+
+function redirect(idCoin) {
+    window.location.href = "detalhes.html?id=" + idCoin;
+}
 
 function verifyIfEmpty() {
     if ($('#table #row > :visible').length == 8) {

@@ -1,4 +1,5 @@
 'use strict'
+
 var fvt = JSON.parse(localStorage.getItem('fvt'));
 var cloneRow = $("#row").clone();
 var currency;
@@ -22,10 +23,9 @@ function apiCall() {
         method: "GET",
         url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
     }).done(function (res) {
-        //console.log(res);
+        
         //console.log(currencySymbol);
         $.each(res, function (index, result) {
-
 
             $('#row').hide();
             var rowClone = cloneRow.clone().addClass('clone').attr('data-name', result.name).attr('data-symbol', result.symbol).attr('data-id', result.id);
@@ -60,6 +60,12 @@ function apiCall() {
         {
             searchFunction();
         }
+
+        else if(search != "")
+        {
+            $('#search').val(search).keyup();
+            search = localStorage.setItem("search", "");
+        }
     })
 }
 
@@ -88,10 +94,15 @@ $('#currencylist li').on('click', function () {
 
 function searchFunction() {
 
+    verifyIfEmpty();
     var valueToSearch = $('#search').val().toLowerCase();
     var cryptoList = $('#table').find('.clone');
+    console.log($(cryptoList).length);
+    if($(cryptoList).length == 0)
+    {
+        apiCall();
+    }
     $(cryptoList).show();
-    console.log($('#table').find('.clone'));
 
     for (var i = 0; i < $(cryptoList).length; i++) {
         var name = $(cryptoList[i]).attr('data-name').toLowerCase();
@@ -107,6 +118,7 @@ function searchFunction() {
 window.onload = apiCall
 
 function btnSearch() {
+    
     var valueToSearch = $('#search').val().toLowerCase();
 
     $.ajax({
@@ -115,9 +127,7 @@ function btnSearch() {
         url: "https://api.coingecko.com/api/v3/coins/" + valueToSearch,
     }).done(function (result) {
 
-        //console.log(result);
-
-        $('.clone').hide();
+        $('.clone').remove();
         $('#row').show();
 
         $('.redirect').attr('onclick', `redirect('${result.id}')`)
