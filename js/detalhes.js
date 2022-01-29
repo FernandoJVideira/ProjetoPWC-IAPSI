@@ -1,9 +1,10 @@
 'use strict'
 
 var queryString = window.location.search;
-var urlParams = new URLSearchParams(queryString); 
+var urlParams = new URLSearchParams(queryString);
 var coinId = urlParams.get("id");
 
+var fvt = JSON.parse(localStorage.getItem('fvt'));
 var currency;
 var currencySymbol;
 var language
@@ -13,8 +14,13 @@ currencySymbol = "€"
 
 console.log(coinId);
 
-function showDetails()
-{
+if (!fvt) {
+    var fvtArr = [];
+
+    localStorage.setItem('fvt', JSON.stringify(fvtArr));
+}
+
+function showDetails() {
     $.ajax({
         method: "GET",
         url: `https://api.coingecko.com/api/v3/coins/${coinId}`
@@ -27,11 +33,28 @@ function showDetails()
         $('.mudanca24h').text(res.market_data.price_change_percentage_24h.toFixed(2) + "%")
         $('.description').html(res.description[language])
 
+        $('.like-btn').attr('id', res.id).attr('onclick', 'favoritos(this)');
+        if (fvt.indexOf(res.id) > -1) {
+            $('.like-btn').addClass("favoritos");
+        }
+
 
     })
 }
 
 window.onload = showDetails
+
+function favoritos(moeda) {
+    $(moeda).toggleClass("favoritos")
+    if ($(moeda).hasClass("favoritos")) {
+
+        fvt.push($(moeda).attr("id"));
+    } else {
+        fvt.splice(fvt.indexOf($(moeda).attr("id")), 1)
+    }
+    localStorage.setItem('fvt', JSON.stringify(fvt));
+    console.log(fvt)
+}
 
 $('#currencylist li').on('click', function () {
     console.log($(this).text());
@@ -53,7 +76,7 @@ $('#currencylist li').on('click', function () {
             break;
     }
     showDetails();
-}) 
+})
 
 $('#languagelist li').on('click', function () {
 
@@ -69,4 +92,4 @@ $('#languagelist li').on('click', function () {
             break;
     }
     showDetails();
-}) 
+})
