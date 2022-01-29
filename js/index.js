@@ -1,12 +1,14 @@
 'use strict'
 
 var fvt = JSON.parse(localStorage.getItem('fvt'));
-var cloneRow = $("#row").clone();
+var cloneRow = $('#row').clone();
 var currency;
 var currencySymbol;
 currency = "eur";
 currencySymbol = "€"
 
+$('#erro').hide();
+$('#erro2').hide();
 $('#search').on("change", verifyIfEmpty);
 $('#search').keyup(searchFunction);
 $('#btnSearch').on('click', btnSearch)
@@ -40,9 +42,11 @@ function apiCall() {
             $('.volume24h', rowClone).text(result.circulating_supply + " (" + result.symbol.toUpperCase() + ")")
 
             $('.like-btn', rowClone).attr('id', result.id).attr('onclick', 'favoritos(this)');
+            
             if (fvt.indexOf(result.id) > -1) {
                 $('.like-btn', rowClone).addClass("favoritos");
             }
+            
             $('#table').append(rowClone);
 
             var variation = $('.variation', rowClone).text()
@@ -69,6 +73,8 @@ function apiCall() {
     })
 }
 
+apiCall();
+
 $('#currencylist li').on('click', function () {
     console.log($(this).text());
     currencySymbol = $(this).text();
@@ -93,14 +99,14 @@ $('#currencylist li').on('click', function () {
 
 
 function searchFunction() {
-
-    verifyIfEmpty();
+    
+    $('#erro').hide();
     var valueToSearch = $('#search').val().toLowerCase();
     var cryptoList = $('#table').find('.clone');
-    console.log($(cryptoList).length);
+
     if($(cryptoList).length == 0)
     {
-        apiCall();
+        return apiCall();
     }
     $(cryptoList).show();
 
@@ -113,9 +119,12 @@ function searchFunction() {
             $(cryptoList[i]).hide();
         }
     }
-}
 
-window.onload = apiCall
+    if($('.clone:hidden').length >= 100 && $('#erro:hidden'))
+    {
+        $('#erro').show();
+    }
+}
 
 function btnSearch() {
     
@@ -185,7 +194,7 @@ function favoritos(moeda) {
 $("#top10").on("click", function () {
     $('.clone').hide();
     for (let i = 0; i < 10; i++) {
-        console.log($('.clone')[i]);
+
         $('.clone').eq(i).show();
     }
 })
@@ -193,7 +202,7 @@ $("#top10").on("click", function () {
 $("#top50").on("click", function () {
     $('.clone').hide();
     for (let i = 0; i < 50; i++) {
-        console.log($('.clone')[i]);
+
         $('.clone').eq(i).show();
     }
 })
@@ -201,7 +210,7 @@ $("#top50").on("click", function () {
 $("#top100").on("click", function () {
     $('.clone').hide();
     for (let i = 0; i < 100; i++) {
-        console.log($('.clone')[i]);
+
         $('.clone').eq(i).show();
     }
 })
