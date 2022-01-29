@@ -28,8 +28,7 @@ function apiCall() {
             method: "GET",
             url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
         }).done(function (res) {
-            //console.log(res);
-            //console.log(currencySymbol);
+
             $.each(res, function (index, result) {
 
 
@@ -66,7 +65,7 @@ function apiCall() {
 }
 
 $('#currencylist li').on('click', function () {
-    console.log($(this).text());
+
     currencySymbol = $(this).text();
 
     switch (currencySymbol) {
@@ -96,7 +95,6 @@ $('#btnSearch').on('click', function searchFunction() {
         url: "https://api.coingecko.com/api/v3/coins/" + valTosearch,
     }).done(function (result) {
 
-        //console.log(result);
 
         $('.clone').hide();
         $('#row').show();
@@ -138,7 +136,6 @@ function favoritos(moeda) {
     $(moeda).toggleClass("favoritos")
 
     fvt.splice(fvt.indexOf($(moeda).attr("id")), 1)
-    console.log($(moeda).parents())
     $(moeda).parents()[1].remove();
     localStorage.setItem('fvt', JSON.stringify(fvt));
 
@@ -151,7 +148,6 @@ function favoritos(moeda) {
 $("#top10").on("click", function () {
     $('.clone').hide();
     for (let i = 0; i < 10; i++) {
-        console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
@@ -159,7 +155,6 @@ $("#top10").on("click", function () {
 $("#top50").on("click", function () {
     $('.clone').hide();
     for (let i = 0; i < 50; i++) {
-        console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
@@ -167,7 +162,6 @@ $("#top50").on("click", function () {
 $("#top100").on("click", function () {
     $('.clone').hide();
     for (let i = 0; i < 100; i++) {
-        console.log($('.clone')[i]);
         $('.clone').eq(i).show();
     }
 })
