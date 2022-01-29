@@ -12,7 +12,6 @@ currency = "eur";
 language = "en";
 currencySymbol = "€"
 
-console.log(coinId);
 
 if (!fvt) {
     var fvtArr = [];
@@ -37,8 +36,6 @@ function showDetails() {
         if (fvt.indexOf(res.id) > -1) {
             $('.like-btn').addClass("favoritos");
         }
-
-
     })
 }
 
