@@ -5,12 +5,8 @@ var urlParams = new URLSearchParams(url);
 var coinId = urlParams.get("id");
 
 var fvt = JSON.parse(localStorage.getItem('fvt'));
-var currency;
-var currencySymbol;
 var language
-currency = "eur";
 language = "en";
-currencySymbol = "€"
 
 
 if (!fvt) {
@@ -62,24 +58,10 @@ function favoritos(moeda) {
 }
 
 $('#currencylist li').on('click', function () {
-    console.log($(this).text());
+
     currencySymbol = $(this).text();
-
-    switch (currencySymbol) {
-        case '€':
-            currency = 'eur';
-            break;
-
-        case '$':
-            currency = 'usd';
-            break;
-        case '£':
-            currency = 'gbp';
-            break;
-        case '¥':
-            currency = 'jpy';
-            break;
-    }
+    localStorage.setItem("currencySymbol", JSON.stringify($(this).text()));
+    setCurrency();
     showDetails();
 })
 

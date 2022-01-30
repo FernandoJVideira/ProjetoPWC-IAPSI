@@ -2,10 +2,6 @@
 
 var fvt = JSON.parse(localStorage.getItem('fvt'));
 var cloneRow = $("#row").clone();
-var currency;
-var currencySymbol;
-currency = "eur";
-currencySymbol = "€"
 var ids = fvt.join();
 $('#row').hide();
 
@@ -68,22 +64,8 @@ function apiCall() {
 $('#currencylist li').on('click', function () {
 
     currencySymbol = $(this).text();
-
-    switch (currencySymbol) {
-        case '€':
-            currency = 'eur';
-            break;
-
-        case '$':
-            currency = 'usd';
-            break;
-        case '£':
-            currency = 'gbp';
-            break;
-        case '¥':
-            currency = 'jpy';
-            break;
-    }
+    localStorage.setItem("currencySymbol", JSON.stringify($(this).text()));
+    setCurrency();
     apiCall();
 })
 

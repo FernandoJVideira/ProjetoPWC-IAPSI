@@ -1,24 +1,26 @@
 'use strict'
 
+// Variable Declaration
 var fvt = JSON.parse(localStorage.getItem('fvt'));
 var cloneRow = $('#row').clone();
-var currency;
-var currencySymbol;
-currency = "eur";
-currencySymbol = "€"
 
+//Default hidden components
 $('#erro').hide();
 $('#erro2').hide();
+
+//Event Listeners
 $('#search').on("change", verifyIfEmpty);
 $('#search').keyup(searchFunction);
 $('#btnSearch').on('click', btnSearch)
 
+//Verifying if there is a favorite array in localstorage (and if not, create one)
 if (!fvt) {
     var fvtArr = [];
 
     localStorage.setItem('fvt', JSON.stringify(fvtArr));
 }
 
+//Function that calls the Coingecko Api and sets the data in the top 100 table
 function apiCall() {
     $('.clone').remove();
     $.ajax({
@@ -26,7 +28,6 @@ function apiCall() {
         url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
     }).done(function (res) {
         
-        //console.log(currencySymbol);
         $.each(res, function (index, result) {
 
             $('#row').hide();
@@ -76,24 +77,10 @@ function apiCall() {
 apiCall();
 
 $('#currencylist li').on('click', function () {
-    console.log($(this).text());
+
     currencySymbol = $(this).text();
-
-    switch (currencySymbol) {
-        case '€':
-            currency = 'eur';
-            break;
-
-        case '$':
-            currency = 'usd';
-            break;
-        case '£':
-            currency = 'gbp';
-            break;
-        case '¥':
-            currency = 'jpy';
-            break;
-    }
+    localStorage.setItem("currencySymbol", JSON.stringify($(this).text()));
+    setCurrency();
     apiCall();
 })
 
@@ -101,6 +88,7 @@ $('#currencylist li').on('click', function () {
 function searchFunction() {
     
     $('#erro').hide();
+    $('#erro2').hide();
     var valueToSearch = $('#search').val().toLowerCase();
     var cryptoList = $('#table').find('.clone');
 
@@ -134,7 +122,11 @@ function btnSearch() {
         type: 'GET',
         datatype: 'json',
         url: "https://api.coingecko.com/api/v3/coins/" + valueToSearch,
-    }).done(function (result) {
+        error: function(){
+            $('#erro').hide();
+            $('#erro2').show();
+        },
+        success: function (result) {
 
         $('.clone').remove();
         $('#row').show();
@@ -161,6 +153,7 @@ function btnSearch() {
         } else {
             $(".variation").css("color", "green");
             $(".variation").prepend("🡹 ");
+        }
         }
     })
 }
