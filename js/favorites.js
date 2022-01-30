@@ -21,10 +21,16 @@ function apiCall() {
     $.ajax({
         method: "GET",
         url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=false`,
+        
         error: function () {
             $('#error').show()
         },
         success: function (res) {
+
+            if(fvt.length == 0)
+            {
+                $('#error').show()
+            }            
            table(res) 
         }
     })
