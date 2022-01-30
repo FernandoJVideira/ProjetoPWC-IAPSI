@@ -115,7 +115,8 @@ function searchFunction() {
 }
 
 function btnSearch() {
-    
+
+    $('#erro').hide();
     var valueToSearch = $('#search').val().toLowerCase();
 
     $.ajax({
