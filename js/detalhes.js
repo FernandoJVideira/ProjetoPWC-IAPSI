@@ -23,19 +23,19 @@ function showDetails() {
 
         $('.coinImg').attr('src', res.image.large)
         $('.rank').text(res.market_cap_rank)
-        $('.nome').text(res.localization[language] + " (" + res.symbol.toUpperCase() + ")")
-        $('.valor').text(res.market_data.current_price[currency] + " " + currencySymbol)
-        $('.mudanca24h').text(res.market_data.price_change_percentage_24h.toFixed(2) + "%")
+        $('.name').text(res.localization[language] + " (" + res.symbol.toUpperCase() + ")")
+        $('.value').text(res.market_data.current_price[currency] + " " + currencySymbol)
+        $('.variation24h').text(res.market_data.price_change_percentage_24h.toFixed(2) + "%")
         $('.description').html(res.description[language])
 
-        $('.like-btn').attr('id', res.id).attr('onclick', 'favoritos(this)');
+        $('.like-btn').attr('id', res.id).attr('onclick', 'favorites(this)');
         if (fvt.indexOf(res.id) > -1) {
-            $('.like-btn').addClass("favoritos");
+            $('.like-btn').addClass("favorites");
         }
     })
 }
 
-window.onload = showDetails
+showDetails();
 
 $('#btnSearch').on('click', function redirectIndex() {
     
@@ -45,9 +45,9 @@ $('#btnSearch').on('click', function redirectIndex() {
     window.location.href = "index.html";
 })
 
-function favoritos(moeda) {
-    $(moeda).toggleClass("favoritos")
-    if ($(moeda).hasClass("favoritos")) {
+function favorites(moeda) {
+    $(moeda).toggleClass("favorites")
+    if ($(moeda).hasClass("favorites")) {
 
         fvt.push($(moeda).attr("id"));
     } else {

@@ -2,7 +2,6 @@
 
 var search = localStorage.getItem("search");
 var currencySymbol = JSON.parse(localStorage.getItem("currencySymbol"));
-console.log(currencySymbol)
 var currency;
 
 if(!search)
@@ -25,7 +24,6 @@ function setCurrency(){
 
         case "€":
             currency = "eur";
-            console.log(currency)
             break;
         case "$":
             currency = "usd";

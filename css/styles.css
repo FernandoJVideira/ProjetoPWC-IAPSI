@@ -35,10 +35,10 @@
 
 #a:hover
 {
-	color: #56bee6;
+	color: #777;
 }
 
-.nome, .symbol, .price, .marketcap, .variation, .volume24h
+.name, .symbol, .price, .marketcap, .variation, .volume24h
 {
 	
 	font-weight: 700;
@@ -46,7 +46,7 @@
 
 th
 {
-	color: #98e2f1;
+	color: #777;
 }
 
 .table>:not(:first-child)
@@ -64,16 +64,16 @@ th
 	transition: .3s;
 	color: white;
 	border-color: white;
-  background-color: black;
+    background-color: black;
 }
 	
 #btnSearch:hover
 {
-	background-color:#0d305c;
-	border-color:#0d305c
+	background-color: #777;
+	border-color:#777;
 }
 
-.favoritos 
+.favorites 
 {
   color: rgba(255, 255, 0, 0.801);
 }
@@ -83,12 +83,12 @@ th
   background-color: rgba(0, 0, 0, 0.2);
 }
  
-#erro
+#error
 {
 	text-align: center;
 	margin-top: 200px;
 }
-#erro2
+#error2
 {
 	text-align: center;
 	margin-top: 200px;
@@ -99,7 +99,11 @@ th
 	margin-top: 150px;
 }
 
-
+.description-coin
+{
+	padding: 50px;
+	padding-top: 30px;
+}
 .description-coin p
 {
 	color: #ffffff;
@@ -124,4 +128,9 @@ th
 .fa-star:before {
     content: "\f005";
     padding-left: 5px;
+}
+
+.like-btn
+{
+	cursor: pointer;
 }

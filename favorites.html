@@ -41,7 +41,7 @@
                   class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a id="a" class="nav-link" href="favoritos.html"> &#9733
+              <a id="a" class="nav-link" href="favorites.html"> &#9733
                 Favoritos</a>
             </li>
             <li class="nav-item dropdown">
@@ -55,17 +55,6 @@
                 <li><a id="a" class="gbp dropdown-item">£</a></li>
                 <li><a id="a" class="yen dropdown-item">¥</a></li>
               </ul>
-            <li class="nav-item dropdown">
-              <a id="a" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <i class="fas fa-angle-double-up"></i> Top
-              </a>
-              <ul id="topCoins" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a id="top10" class="dropdown-item">Top 10</a></li>
-                <li><a id="top50" class="dropdown-item">Top 50</a></li>
-                <li><a id="top100" class="dropdown-item">Top 100</a></li>
-              </ul>
-            </li>
             </li>
           </ul>
           <div class="d-flex">
@@ -94,7 +83,7 @@
       <tbody>
         <tr id="row">
           <th scope="row" onclick=""><span class="rank"></span></th>
-          <td class="redirect"><span class="nome"></span></td>
+          <td class="redirect"><span class="name"></span></td>
           <td class="redirect"><img class="symbol" src=""></td>
           <td class="redirect"><span class="price"></span></td>
           <td class="redirect"><span class="marketcap"></span></td>
@@ -105,7 +94,7 @@
       </tbody>
     </table>
 
-    <h5 id="erro">You don't have any coins added!</h5>
+    <h5 id="error">You don't have any coins added!</h5>
   </div>
   
   <footer class="mt-auto text-center text-white">
@@ -139,7 +128,6 @@
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <script src="js/localstorageValues.js"></script>
-  <script src="js/favoritos.js"></script>
-  
+  <script src="js/favorites.js"></script>
 </body>
 </html>
