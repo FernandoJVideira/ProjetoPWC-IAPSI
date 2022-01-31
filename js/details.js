@@ -23,7 +23,7 @@ function showDetails() {
         url: `https://api.coingecko.com/api/v3/coins/${coinId}`
     }).done(function (res) {
 
-        detailPG(res);
+        detailsPG(res);
     })
 }
 
@@ -31,7 +31,7 @@ function showDetails() {
 showDetails();
 
 //Puts the correct information in the respective slot
-function detaisPG(res)
+function detailsPG(res)
 {
     $('.coinImg').attr('src', res.image.large)
     $('.rank').text(res.market_cap_rank)
