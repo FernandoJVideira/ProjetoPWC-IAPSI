@@ -1,7 +1,7 @@
 'use strict'
 
 var search = localStorage.getItem("search");
-var currencySymbol = JSON.parse(localStorage.getItem("currencySymbol"));
+var currencySymbol = localStorage.getItem("currencySymbol");
 var currency;
 
 if(!search)
