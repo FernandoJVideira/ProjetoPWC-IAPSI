@@ -100,6 +100,6 @@ function favorites(moeda) {
     localStorage.setItem('fvt', JSON.stringify(fvt));
 
     if (fvt.join() == "") {
-        $('#erro').show();
+        $('#error').show();
     }
 }

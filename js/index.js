@@ -128,8 +128,8 @@ function btnSearch() {
         datatype: 'json',
         url: "https://api.coingecko.com/api/v3/coins/" + valueToSearch,
         error: function () {
-            $('#erro').hide();
-            $('#erro2').show();
+            $('#error').hide();
+            $('#error2').show();
         },
         success: function (result) {
 
