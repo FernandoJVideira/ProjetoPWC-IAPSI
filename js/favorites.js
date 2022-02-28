@@ -1,19 +1,23 @@
 'use strict'
 
+// Variable Declaration
 var fvt = JSON.parse(localStorage.getItem('fvt'));
 var cloneRow = $("#row").clone();
 var ids = fvt.join();
+
+//Default hidden components
 $('#row').hide();
 $('#error').hide()
 
 
+//Checks if there is a favourite array and, if not creates that array
 if (!fvt) {
     var fvtArr = [];
 
     localStorage.setItem('fvt', JSON.stringify(fvtArr));
 }
 
-
+//Function that calls the Coingecko Api and sets the data in the favorites table
 function apiCall() {
     $('.clone').remove();
 
@@ -21,18 +25,28 @@ function apiCall() {
     $.ajax({
         method: "GET",
         url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=false`,
+        
         error: function () {
             $('#error').show()
         },
         success: function (res) {
-           table(res) 
+
+            if(fvt.length == 0)
+            {
+                $('#error').show()
+            }            
+            tableBuilder(res) 
         }
     })
 
 
 }
 
-function table(res)
+//Executes the api call to show coins added to the favorites
+apiCall();
+
+//This function grabs the results from Ajax and builds the table acording to the data
+function tableBuilder(res)
 {
     $.each(res, function (index, result) {
 
@@ -67,6 +81,7 @@ function table(res)
     })
 }
 
+//Sets the currency and respective symbol with help of an external script to keep it across pages
 $('#currencylist li').on('click', function () {
 
     currencySymbol = $(this).text();
@@ -75,6 +90,7 @@ $('#currencylist li').on('click', function () {
     apiCall();
 })
 
+//When searching, this function stores the search query in an external variable and redirects to index.html where it runs the respective search function
 $('#btnSearch').on('click', function redirectIndex() {
 
     var valTosearch = $('#search').val().toLowerCase();
@@ -84,8 +100,8 @@ $('#btnSearch').on('click', function redirectIndex() {
     window.location.href = "index.html";
 })
 
-apiCall();
 
+//This function is called when clicking on a table row to redirect to the clicked coin's details page
 function redirect(idCoin) {
     window.location.href = "details.html?id=" + idCoin;
 }

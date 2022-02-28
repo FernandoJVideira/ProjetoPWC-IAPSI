@@ -32,9 +32,7 @@ function apiCall() {
 
         if ($('#search').val() != "") {
             searchFunction();
-        }
-
-        else if (search != "") {
+        } else if (search != "") {
             $('#search').val(search).keyup();
             search = localStorage.setItem("search", "");
         }
@@ -80,6 +78,7 @@ function table(res) {
 //Calling the function to display the table
 apiCall();
 
+//Sets the currency and respective symbol with help of an external script to keep it across pages
 $('#currencylist li').on('click', function () {
 
     currencySymbol = $(this).text();
@@ -133,34 +132,39 @@ function btnSearch() {
         },
         success: function (result) {
 
-            $('.clone').remove();
-            $('#row').show();
-
-            $('.redirect').attr('onclick', `redirect('${result.id}')`)
-            $('.rank').text(result.market_cap_rank)
-            $('.name').text(result.name + " (" + result.symbol.toUpperCase() + ")")
-            $('.symbol').attr('src', result.image.small)
-            $('.price').text(currencySymbol + " " + result.market_data.current_price[currency])
-            $('.marketcap').text(result.market_data.market_cap[currency])
-            $('.variation').text(result.market_data.price_change_percentage_24h.toFixed(2))
-            $('.volume24h').text(result.market_data.circulating_supply)
-
-            $('.like-btn').attr('id', result.id).attr('onclick', 'favorites(this)');
-
-            if (fvt.indexOf(result.id) > -1) {
-                $('.like-btn').addClass("favorites");
-            }
-            var variation = $('.variation').text()
-
-            if (variation.match("^-")) {
-                $(".variation").css("color", "red");
-                $(".variation").prepend("🡻 ");
-            } else {
-                $(".variation").css("color", "green");
-                $(".variation").prepend("🡹 ");
-            }
+            searchrow(result);
         }
     })
+}
+
+//Shows the empty cloned table row when searching a coin not on the top 100 coins
+function searchrow(result) {
+    $('.clone').remove();
+    $('#row').show();
+
+    $('.redirect').attr('onclick', `redirect('${result.id}')`)
+    $('.rank').text(result.market_cap_rank)
+    $('.name').text(result.name + " (" + result.symbol.toUpperCase() + ")")
+    $('.symbol').attr('src', result.image.small)
+    $('.price').text(currencySymbol + " " + result.market_data.current_price[currency])
+    $('.marketcap').text(result.market_data.market_cap[currency])
+    $('.variation').text(result.market_data.price_change_percentage_24h.toFixed(2))
+    $('.volume24h').text(result.market_data.circulating_supply)
+
+    $('.like-btn').attr('id', result.id).attr('onclick', 'favorites(this)');
+
+    if (fvt.indexOf(result.id) > -1) {
+        $('.like-btn').addClass("favorites");
+    }
+    var variation = $('.variation').text()
+
+    if (variation.match("^-")) {
+        $(".variation").css("color", "red");
+        $(".variation").prepend("🡻 ");
+    } else {
+        $(".variation").css("color", "green");
+        $(".variation").prepend("🡹 ");
+    }
 }
 
 //This function is called when clicking on a table row to redirect to the clicked coin's details page
